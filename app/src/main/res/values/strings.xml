@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">DigiTaboo</string>
+    <string name="splash_title">"Taboo"</string>
+    <string name="start">Start Game</string>
+    <string name="instructions">Instructions</string>
+    <string name="add_card">Add New Card</string>
+    <string name="rules">How To Play</string>
+    <string name="mode">Mode</string>
+    <string name="skip_buzz">Skip/Buzz</string>
+    <string name="correct">Correct</string>
+    <string name="score">Score</string>
+    <string name="team">Team</string>
+    <string name="team_number">How many teams are playing?</string>
+    <string name="round">Round</string>
+    <string name="pick_scoring">Pick Scoring Rules:</string>
+    <string name="pick_difficulty">Pick Difficulty:</string>
+    <string name="pick_rounds">How many rounds would you like to play?</string>
+    <string name="new_word">Add New Word</string>
+    <string name="taboo_word1">Add Taboo Word #1</string>
+    <string name="taboo_word2">Add Taboo Word #2</string>
+    <string name="taboo_word3">Add Taboo Word #3</string>
+    <string name="taboo_word4">Add Taboo Word #4</string>
+    <string name="taboo_word5">Add Taboo Word #5</string>
+    <string name="save">Save</string>
+    <string name="manage">Manage Cards</string>
+    <string name="history">History</string>
+</resources>
