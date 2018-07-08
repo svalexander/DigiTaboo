@@ -24,10 +24,11 @@ public abstract class TabooDatabase extends RoomDatabase {
     public static TabooDatabase getDatabase(final Context context) {
 
         if (INSTANCE == null) {
+            //singleton also implies that there is a single instance shared by all threads
             //if an object is visible to more than 1 thread all reading/writing to that object should be done thru
             //a synchronized method (java docs)
             synchronized (TabooDatabase.class) {
-                if (INSTANCE == null) { //why do we need  2nd check?
+                if (INSTANCE == null) { //why do we need  2nd check? --> double checked locking, checking that another thread has not accessed it, or more to the point that it is still null
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             TabooDatabase.class, "taboo_database")
                             .addCallback(roomCallBack)

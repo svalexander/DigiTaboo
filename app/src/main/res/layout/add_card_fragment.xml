@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="400dp">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/close_frag_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/close"
+        app:layout_constraintRight_toRightOf="@id/card"
+        app:layout_constraintTop_toTopOf="@id/card" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="225dp"
+        android:layout_height="300dp"
+        android:orientation="vertical"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/paler_blue"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/add_word_edit"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_weight="2"
+                android:background="@color/pale_blue"
+                android:hint="@string/new_word"
+                android:paddingTop="10dp"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/word_one_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/taboo_word1"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@id/add_word_edit" />
+
+            <EditText
+                android:id="@+id/word_two_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/taboo_word2"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@id/word_one_edit" />
+
+            <EditText
+                android:id="@+id/word_three_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/taboo_word3"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@id/word_two_edit" />
+
+            <EditText
+                android:id="@+id/word_four_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/taboo_word4"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@id/word_three_edit" />
+
+            <EditText
+                android:id="@+id/word_five_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/taboo_word5"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@id/word_four_edit" />
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <Button
+        android:id="@+id/submit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/submit"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card" />
+</android.support.constraint.ConstraintLayout>

@@ -5,6 +5,8 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,12 +18,16 @@ public class ManageDecksActivity extends AppCompatActivity {
 
     private TabooViewModel viewModel;
     private DeckAdapter adapter;
+    private FloatingActionButton actionButton;
+    private AddCardFragment addCardFragment = new AddCardFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_decks);
         initRv();
+        initViews();
+        launchFragment();
 
         viewModel = ViewModelProviders.of(this).get(TabooViewModel.class);
         viewModel.getAllCards().observe(this, new Observer<List<TabooCard>>() {
@@ -33,7 +39,23 @@ public class ManageDecksActivity extends AppCompatActivity {
         });
     }
 
-    void initRv() {
+    private void initViews() {
+        actionButton = findViewById(R.id.launch_fragment_btn);
+    }
+
+    private void launchFragment() {
+
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager addCardFragTransaction = getSupportFragmentManager();
+                addCardFragTransaction.beginTransaction().replace(R.id.frame_layout, addCardFragment).commit();
+
+            }
+        });
+    }
+
+    private void initRv() {
         RecyclerView recyclerView = findViewById(R.id.rv);
         adapter = new DeckAdapter(this);
         recyclerView.setAdapter(adapter);
