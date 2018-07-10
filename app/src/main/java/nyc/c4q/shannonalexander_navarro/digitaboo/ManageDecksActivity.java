@@ -2,14 +2,15 @@ package nyc.c4q.shannonalexander_navarro.digitaboo;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class ManageDecksActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manage_decks);
         initRv();
         initViews();
-        launchFragment();
+        launchAddCardActivity();
 
         viewModel = ViewModelProviders.of(this).get(TabooViewModel.class);
         viewModel.getAllCards().observe(this, new Observer<List<TabooCard>>() {
@@ -43,13 +44,12 @@ public class ManageDecksActivity extends AppCompatActivity {
         actionButton = findViewById(R.id.launch_fragment_btn);
     }
 
-    private void launchFragment() {
-
+    private void launchAddCardActivity() {
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager addCardFragTransaction = getSupportFragmentManager();
-                addCardFragTransaction.beginTransaction().replace(R.id.frame_layout, addCardFragment).commit();
+                Intent intent = new Intent(ManageDecksActivity.this, AddCardActivity.class);
+                startActivityForResult(intent, 1);
 
             }
         });
@@ -61,6 +61,17 @@ public class ManageDecksActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new OverlapCards());
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1 && resultCode == RESULT_OK){
+            Bundle bundle = data.getBundleExtra("card_bundle");
+            TabooCard card = (TabooCard) bundle.getSerializable("cardKey");
+            viewModel.insert(card);
+            Log.d("result", card.getTabooWord1());
+        }
     }
 
     public class OverlapCards extends RecyclerView.ItemDecoration {
