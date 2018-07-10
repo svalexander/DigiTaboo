@@ -20,7 +20,6 @@ public class ManageDecksActivity extends AppCompatActivity {
     private TabooViewModel viewModel;
     private DeckAdapter adapter;
     private FloatingActionButton actionButton;
-    private AddCardFragment addCardFragment = new AddCardFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +33,6 @@ public class ManageDecksActivity extends AppCompatActivity {
         viewModel.getAllCards().observe(this, new Observer<List<TabooCard>>() {
             @Override
             public void onChanged(@Nullable final List<TabooCard> words) {
-                // Update the cached copy of the words in the adapter.
                 adapter.setCards(words);
             }
         });
@@ -81,10 +79,8 @@ public class ManageDecksActivity extends AppCompatActivity {
             super.getItemOffsets(outRect, view, parent, state);
 
             int position = parent.getChildAdapterPosition(view);
-            //this works but i need to bring them closer together
 
             if (position != 0) {
-
                 outRect.offsetTo(-80, 80);
             }
 

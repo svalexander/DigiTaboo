@@ -5,10 +5,6 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-/**
- * Created by shannonalexander-navarro on 6/6/18.
- */
-
 @Entity(tableName = "taboo_deck_table",
         foreignKeys = @ForeignKey(
         entity = TabooCard.class,

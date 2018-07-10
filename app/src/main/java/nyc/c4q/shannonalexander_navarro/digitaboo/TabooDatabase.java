@@ -8,10 +8,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-/**
- * Created by shannonalexander-navarro on 6/6/18.
- */
-
 @Database(entities = {TabooDeck.class, TabooCard.class}, version = 1)
 public abstract class TabooDatabase extends RoomDatabase {
 

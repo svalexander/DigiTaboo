@@ -6,10 +6,6 @@ import android.arch.lifecycle.LiveData;
 
 import java.util.List;
 
-/**
- * Created by shannonalexander-navarro on 6/9/18.
- */
-
 public class TabooViewModel extends AndroidViewModel {
 
     private TabooRepository repository;

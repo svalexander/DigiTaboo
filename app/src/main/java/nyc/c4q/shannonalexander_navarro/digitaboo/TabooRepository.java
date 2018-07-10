@@ -6,10 +6,6 @@ import android.os.AsyncTask;
 
 import java.util.List;
 
-/**
- * Created by shannonalexander-navarro on 6/9/18.
- */
-
 public class TabooRepository {
 
     private TabooDeckDao tabooDeckDao;

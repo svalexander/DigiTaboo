@@ -1,13 +1,8 @@
 package nyc.c4q.shannonalexander_navarro.digitaboo;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
-/**
- * Created by shannonalexander-navarro on 6/9/18.
- */
 
 public class DeckViewHolder extends RecyclerView.ViewHolder {
 
@@ -25,7 +20,6 @@ public class DeckViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(TabooCard currentCard) {
-
         one = currentCard.getTabooWord1();
         two = currentCard.getTabooWord2();
         three = currentCard.getTabooWord3();
@@ -33,9 +27,6 @@ public class DeckViewHolder extends RecyclerView.ViewHolder {
         five = currentCard.getTabooWord5();
         guess = currentCard.getWordToGuess();
 
-        Log.d("word?", guess+"");
-        //ok log shows me i am getting the word...buuuuut i dont see it in my ui, why?
-        //^the answer is that i was setting the text b4 getting the data, so there wasn't anything to set
         wordToGuessTV.setText(guess);
         word5TV.setText(five);
         word4TV.setText(four);

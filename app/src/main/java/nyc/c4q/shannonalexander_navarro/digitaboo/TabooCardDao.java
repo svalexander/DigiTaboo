@@ -8,10 +8,6 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
-/**
- * Created by shannonalexander-navarro on 6/6/18.
- */
-
 @Dao
 public interface TabooCardDao {
 

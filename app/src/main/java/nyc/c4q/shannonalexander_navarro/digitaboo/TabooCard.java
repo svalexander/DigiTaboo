@@ -7,10 +7,6 @@ import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 
-/**
- * Created by shannonalexander-navarro on 6/4/18.
- */
-
 @Entity(tableName = "tabooCard_table")
 public class TabooCard implements Serializable {
 

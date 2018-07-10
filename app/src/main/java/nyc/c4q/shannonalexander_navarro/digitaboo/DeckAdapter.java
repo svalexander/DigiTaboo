@@ -9,10 +9,6 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-/**
- * Created by shannonalexander-navarro on 6/9/18.
- */
-
 public class DeckAdapter extends RecyclerView.Adapter<DeckViewHolder> {
 
     private List<TabooCard> tabooWordList;
@@ -25,7 +21,6 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckViewHolder> {
     @NonNull
     @Override
     public DeckViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View root = inflater.inflate(R.layout.card_item_view, parent, false);
         return new DeckViewHolder(root);
     }
@@ -44,7 +39,6 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckViewHolder> {
     }
     @Override
     public int getItemCount() {
-
         if (tabooWordList != null) {
             return tabooWordList.size();
         } else return 0;
