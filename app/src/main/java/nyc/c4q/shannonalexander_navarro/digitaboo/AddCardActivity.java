@@ -37,24 +37,28 @@ public class AddCardActivity extends AppCompatActivity {
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddCardActivity.this, ManageDecksActivity.class);
-                if(getCardDetails() == null){
-                    setResult(RESULT_CANCELED, intent);
-                } else {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("cardKey", getCardDetails());
-                    intent.putExtra("card_bundle", bundle);
-                    setResult(RESULT_OK, intent);
-                }
-                finish();
+                closeAndSendCard();
             }
         });
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getCardDetails();
+                closeAndSendCard();
             }
         });
+    }
+
+    private void closeAndSendCard() {
+        Intent intent = new Intent(AddCardActivity.this, ManageDecksActivity.class);
+        if(getCardDetails() == null){
+            setResult(RESULT_CANCELED, intent);
+        } else {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("cardKey", getCardDetails());
+            intent.putExtra("card_bundle", bundle);
+            setResult(RESULT_OK, intent);
+        }
+        finish();
     }
 
     private TabooCard getCardDetails() {
