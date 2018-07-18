@@ -25,42 +25,59 @@
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
                 android:background="@color/pale_blue"
-                android:paddingTop="10dp"
-                android:textAlignment="center" />
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/word_one_tv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                app:layout_constraintTop_toBottomOf="@id/word_to_guess" />
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/word_two_tv"
+                app:layout_constraintTop_toBottomOf="@id/word_to_guess"
+                app:layout_constraintVertical_chainStyle="spread_inside" />
 
             <TextView
                 android:id="@+id/word_two_tv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/word_three_tv"
                 app:layout_constraintTop_toBottomOf="@id/word_one_tv" />
 
             <TextView
                 android:id="@+id/word_three_tv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/word_four_tv"
                 app:layout_constraintTop_toBottomOf="@id/word_two_tv" />
 
             <TextView
                 android:id="@+id/word_four_tv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/word_five_tv"
                 app:layout_constraintTop_toBottomOf="@id/word_three_tv" />
 
             <TextView
                 android:id="@+id/word_five_tv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/word_four_tv" />
         </android.support.constraint.ConstraintLayout>
 
