@@ -14,6 +14,9 @@ public interface TabooCardDao {
     @Insert
     void insert(TabooCard tabooCard);
 
+    @Insert
+    void insertAll(List<TabooCard> cards);
+
     @Delete
     void delete(TabooCard tabooCard);
 

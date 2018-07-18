@@ -11,6 +11,8 @@ import android.support.annotation.NonNull;
 @Database(entities = {TabooDeck.class, TabooCard.class}, version = 1)
 public abstract class TabooDatabase extends RoomDatabase {
 
+    public static final String DEFAULT_DECK_ID = "default";
+
     public abstract TabooDeckDao deckDao();
 
     public abstract TabooCardDao wordDao();
@@ -32,7 +34,6 @@ public abstract class TabooDatabase extends RoomDatabase {
                 }
             }
         }
-
         return INSTANCE;
     }
 
@@ -59,14 +60,7 @@ public abstract class TabooDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(final Void... params) {
-           cardDao.deleteAll(); //without deleteall manage crashes
-            TabooCard defaultCard = new TabooCard("Chicken Salad", "lunch", "dressing",
-                    "eat", "lettuce", "tomato", "default");
-            cardDao.insert(defaultCard);
-
-            TabooCard defaultCard2 = new TabooCard("Birthday Party", "balloons", "candles",
-                    "cake", "gifts", "song", "default");
-            cardDao.insert(defaultCard2);
+            cardDao.insertAll(DefaultCards.createDefaultCards());
             return null;
         }
     }
