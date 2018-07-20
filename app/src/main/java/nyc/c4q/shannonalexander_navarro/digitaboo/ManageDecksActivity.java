@@ -1,19 +1,15 @@
 package nyc.c4q.shannonalexander_navarro.digitaboo;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-
-import java.util.List;
 
 public class ManageDecksActivity extends AppCompatActivity {
 
@@ -30,12 +26,7 @@ public class ManageDecksActivity extends AppCompatActivity {
         launchAddCardActivity();
 
         viewModel = ViewModelProviders.of(this).get(TabooViewModel.class);
-        viewModel.getAllCards().observe(this, new Observer<List<TabooCard>>() {
-            @Override
-            public void onChanged(@Nullable final List<TabooCard> words) {
-                adapter.setCards(words);
-            }
-        });
+        viewModel.getAllCards().observe(this, words -> adapter.setCards(words));
     }
 
     private void initViews() {
@@ -62,8 +53,8 @@ public class ManageDecksActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            Bundle bundle = data.getBundleExtra("card_bundle");
-            TabooCard card = (TabooCard) bundle.getSerializable("cardKey");
+            Bundle bundle = data.getBundleExtra(AddCardActivity.BUNDLE_KEY);
+            TabooCard card = (TabooCard) bundle.getSerializable(AddCardActivity.SERIALIZABLE_KEY);
             viewModel.insert(card);
             Log.d("result", card.getTabooWord1());
         }

@@ -12,6 +12,8 @@ public class AddCardActivity extends AppCompatActivity {
     private FloatingActionButton closeBtn;
     private Button submitBtn;
     private EditText taboo, one, two, three, four, five;
+    public static final String SERIALIZABLE_KEY = "cardKey";
+    public static final String BUNDLE_KEY = "card_bundle";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +41,12 @@ public class AddCardActivity extends AppCompatActivity {
 
     private void closeAndSendCard() {
         Intent intent = new Intent(AddCardActivity.this, ManageDecksActivity.class);
-        if(getCardDetails() == null){
+        if (getCardDetails() == null) {
             setResult(RESULT_CANCELED, intent);
         } else {
             Bundle bundle = new Bundle();
-            bundle.putSerializable("cardKey", getCardDetails());
-            intent.putExtra("card_bundle", bundle);
+            bundle.putSerializable(SERIALIZABLE_KEY, getCardDetails());
+            intent.putExtra(BUNDLE_KEY, bundle);
             setResult(RESULT_OK, intent);
         }
         finish();
