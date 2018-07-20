@@ -43,13 +43,10 @@ public class ManageDecksActivity extends AppCompatActivity {
     }
 
     private void launchAddCardActivity() {
-        actionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ManageDecksActivity.this, AddCardActivity.class);
-                startActivityForResult(intent, 1);
+        actionButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ManageDecksActivity.this, AddCardActivity.class);
+            startActivityForResult(intent, 1);
 
-            }
         });
     }
 
@@ -64,7 +61,7 @@ public class ManageDecksActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1 && resultCode == RESULT_OK){
+        if (requestCode == 1 && resultCode == RESULT_OK) {
             Bundle bundle = data.getBundleExtra("card_bundle");
             TabooCard card = (TabooCard) bundle.getSerializable("cardKey");
             viewModel.insert(card);
@@ -78,10 +75,11 @@ public class ManageDecksActivity extends AppCompatActivity {
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
             super.getItemOffsets(outRect, view, parent, state);
 
+            //TODO: stack cards like a deck
             int position = parent.getChildAdapterPosition(view);
 
             if (position != 0) {
-                outRect.offsetTo(-80, 80);
+                outRect.offsetTo(position + 80, 80);
             }
 
         }

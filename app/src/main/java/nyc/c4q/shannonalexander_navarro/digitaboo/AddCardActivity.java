@@ -61,4 +61,6 @@ public class AddCardActivity extends AppCompatActivity {
         TabooCard card = new TabooCard(tabooStr, oneStr, twoStr, threeStr, fourStr, fiveStr, TabooDatabase.DEFAULT_DECK_ID);
         return card;
     }
+
+    //TODO: Write logic to make sure card is added to db when nav to this act from main
 }

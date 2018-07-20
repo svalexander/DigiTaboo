@@ -9,19 +9,34 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     private Button mngButton;
+    private Button addButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mngButton = findViewById(R.id.manageBtn);
-        mngButton.setOnClickListener(new View.OnClickListener() {
+        initViews();
+        handleButtons();
+    }
+
+    private void handleButtons() {
+        mngButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ManageDecksActivity.class);
+            startActivity(intent);
+        });
+
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ManageDecksActivity.class);
+                Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
                 startActivity(intent);
             }
         });
+    }
+
+    private void initViews() {
+        mngButton = findViewById(R.id.manageBtn);
+        addButton = findViewById(R.id.add_wordBtn);
     }
 }
