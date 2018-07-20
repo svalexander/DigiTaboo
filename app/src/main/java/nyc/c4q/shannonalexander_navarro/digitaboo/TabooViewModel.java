@@ -26,4 +26,6 @@ public class TabooViewModel extends AndroidViewModel {
         repository.insert(card);
     }
 
+    public void delete(TabooCard card) {repository.delete(card);}
+
 }

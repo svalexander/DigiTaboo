@@ -8,7 +8,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 public class ManageDecksActivity extends AppCompatActivity {
@@ -27,7 +26,11 @@ public class ManageDecksActivity extends AppCompatActivity {
 
         viewModel = ViewModelProviders.of(this).get(TabooViewModel.class);
         viewModel.getAllCards().observe(this, words -> adapter.setCards(words));
+
+        //TODO: delete item from db if clicked
     }
+
+
 
     private void initViews() {
         actionButton = findViewById(R.id.launch_fragment_btn);
@@ -56,7 +59,6 @@ public class ManageDecksActivity extends AppCompatActivity {
             Bundle bundle = data.getBundleExtra(AddCardActivity.BUNDLE_KEY);
             TabooCard card = (TabooCard) bundle.getSerializable(AddCardActivity.SERIALIZABLE_KEY);
             viewModel.insert(card);
-            Log.d("result", card.getTabooWord1());
         }
     }
 

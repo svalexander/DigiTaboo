@@ -27,6 +27,8 @@ public class TabooRepository {
 
     public void insert(TabooCard card) { new insertAsyncTask(tabooCardDao).execute(card);}
 
+    public void delete(TabooCard card) {new deleteAsyncTask(tabooCardDao).execute(card);}
+
     private static class insertAsyncTask extends AsyncTask<TabooCard, Void, Void> {
 
         private TabooCardDao mAsyncTaskDao;
@@ -38,6 +40,20 @@ public class TabooRepository {
         @Override
         protected Void doInBackground(final TabooCard... params) {
             mAsyncTaskDao.insert(params[0]);
+            return null;
+        }
+    }
+
+    private static class deleteAsyncTask extends AsyncTask<TabooCard, Void, Void>{
+
+        private TabooCardDao asyncTaskDao;
+        public deleteAsyncTask(TabooCardDao tabooCardDao) {
+            asyncTaskDao = tabooCardDao;
+        }
+
+        @Override
+        protected Void doInBackground(TabooCard... tabooCards) {
+            asyncTaskDao.delete(tabooCards[0]);
             return null;
         }
     }
