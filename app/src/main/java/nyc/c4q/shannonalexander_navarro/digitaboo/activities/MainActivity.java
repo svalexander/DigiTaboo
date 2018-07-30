@@ -1,15 +1,15 @@
-package nyc.c4q.shannonalexander_navarro.digitaboo;
+package nyc.c4q.shannonalexander_navarro.digitaboo.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
+
+import nyc.c4q.shannonalexander_navarro.digitaboo.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button mngButton;
-    private Button addButton;
+    private Button mngButton, addButton, startButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,16 +26,18 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
-                startActivity(intent);
-            }
+        addButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AddCardActivity.class);
+            startActivity(intent);
+        });
+        startButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, PlayGameActivity.class);
+            startActivity(intent);
         });
     }
 
     private void initViews() {
+        startButton = findViewById(R.id.startBtn);
         mngButton = findViewById(R.id.manageBtn);
         addButton = findViewById(R.id.add_wordBtn);
     }

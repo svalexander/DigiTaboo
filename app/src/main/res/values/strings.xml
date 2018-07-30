@@ -6,12 +6,13 @@
     <string name="add_card">Add New Card</string>
     <string name="rules">How To Play</string>
     <string name="mode">Mode</string>
-    <string name="skip_buzz">Skip/Buzz</string>
+    <string name="skip">Skip</string>
+    <string name="buzz">Taboo</string>
     <string name="correct">Correct</string>
-    <string name="score">Score</string>
-    <string name="team">Team</string>
+    <string name="score">Score: %s</string>
+    <string name="team">Team %s</string>
     <string name="team_number">How many teams are playing?</string>
-    <string name="round">Round</string>
+    <string name="round">Round %s</string>
     <string name="pick_scoring">Pick Scoring Rules:</string>
     <string name="pick_difficulty">Pick Difficulty:</string>
     <string name="pick_rounds">How many rounds would you like to play?</string>

@@ -1,8 +1,11 @@
-package nyc.c4q.shannonalexander_navarro.digitaboo;
+package nyc.c4q.shannonalexander_navarro.digitaboo.rv;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+
+import nyc.c4q.shannonalexander_navarro.digitaboo.R;
+import nyc.c4q.shannonalexander_navarro.digitaboo.models.TabooCard;
 
 public class DeckViewHolder extends RecyclerView.ViewHolder {
 

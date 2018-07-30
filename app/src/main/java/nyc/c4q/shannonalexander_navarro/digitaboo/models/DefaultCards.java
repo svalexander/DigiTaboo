@@ -1,4 +1,4 @@
-package nyc.c4q.shannonalexander_navarro.digitaboo;
+package nyc.c4q.shannonalexander_navarro.digitaboo.models;
 
 import java.util.ArrayList;
 import java.util.List;

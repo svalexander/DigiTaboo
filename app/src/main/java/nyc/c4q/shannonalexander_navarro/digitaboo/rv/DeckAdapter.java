@@ -1,4 +1,4 @@
-package nyc.c4q.shannonalexander_navarro.digitaboo;
+package nyc.c4q.shannonalexander_navarro.digitaboo.rv;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,12 +9,15 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import nyc.c4q.shannonalexander_navarro.digitaboo.R;
+import nyc.c4q.shannonalexander_navarro.digitaboo.models.TabooCard;
+
 public class DeckAdapter extends RecyclerView.Adapter<DeckViewHolder> {
 
     private List<TabooCard> tabooWordList;
     private LayoutInflater inflater;
 
-    DeckAdapter(Context context) {
+    public DeckAdapter(Context context) {
         inflater = LayoutInflater.from(context);
     }
 
@@ -33,7 +36,7 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckViewHolder> {
         }
     }
 
-    void setCards(List<TabooCard> cards) {
+    public void setCards(List<TabooCard> cards) {
         tabooWordList = cards;
         notifyDataSetChanged();
     }

@@ -6,6 +6,8 @@ import android.arch.lifecycle.LiveData;
 
 import java.util.List;
 
+import nyc.c4q.shannonalexander_navarro.digitaboo.models.TabooCard;
+
 public class TabooViewModel extends AndroidViewModel {
 
     private TabooRepository repository;

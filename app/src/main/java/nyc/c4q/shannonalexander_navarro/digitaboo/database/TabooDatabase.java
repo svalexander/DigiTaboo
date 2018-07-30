@@ -1,4 +1,4 @@
-package nyc.c4q.shannonalexander_navarro.digitaboo;
+package nyc.c4q.shannonalexander_navarro.digitaboo.database;
 
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
@@ -7,6 +7,10 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+
+import nyc.c4q.shannonalexander_navarro.digitaboo.models.DefaultCards;
+import nyc.c4q.shannonalexander_navarro.digitaboo.models.TabooCard;
+import nyc.c4q.shannonalexander_navarro.digitaboo.models.TabooDeck;
 
 @Database(entities = {TabooDeck.class, TabooCard.class}, version = 1)
 public abstract class TabooDatabase extends RoomDatabase {

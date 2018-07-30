@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="nyc.c4q.shannonalexander_navarro.digitaboo.ManageDecksActivity">
+    tools:context="nyc.c4q.shannonalexander_navarro.digitaboo.activities.ManageDecksActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv"

@@ -6,6 +6,11 @@ import android.os.AsyncTask;
 
 import java.util.List;
 
+import nyc.c4q.shannonalexander_navarro.digitaboo.database.TabooCardDao;
+import nyc.c4q.shannonalexander_navarro.digitaboo.database.TabooDatabase;
+import nyc.c4q.shannonalexander_navarro.digitaboo.database.TabooDeckDao;
+import nyc.c4q.shannonalexander_navarro.digitaboo.models.TabooCard;
+
 public class TabooRepository {
 
     private TabooDeckDao tabooDeckDao;

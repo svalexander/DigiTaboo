@@ -1,4 +1,4 @@
-package nyc.c4q.shannonalexander_navarro.digitaboo;
+package nyc.c4q.shannonalexander_navarro.digitaboo.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
+
+import nyc.c4q.shannonalexander_navarro.digitaboo.R;
+import nyc.c4q.shannonalexander_navarro.digitaboo.models.TabooCard;
+import nyc.c4q.shannonalexander_navarro.digitaboo.database.TabooDatabase;
 
 public class AddCardActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package nyc.c4q.shannonalexander_navarro.digitaboo;
+package nyc.c4q.shannonalexander_navarro.digitaboo.database;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
@@ -7,6 +7,9 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
 import java.util.List;
+
+import nyc.c4q.shannonalexander_navarro.digitaboo.models.TabooCard;
+import nyc.c4q.shannonalexander_navarro.digitaboo.models.TabooDeck;
 
 @Dao
 public interface TabooDeckDao {

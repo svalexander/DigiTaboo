@@ -1,4 +1,4 @@
-package nyc.c4q.shannonalexander_navarro.digitaboo;
+package nyc.c4q.shannonalexander_navarro.digitaboo.activities;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -10,11 +10,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import java.util.ArrayList;
+
+import nyc.c4q.shannonalexander_navarro.digitaboo.R;
+import nyc.c4q.shannonalexander_navarro.digitaboo.TabooViewModel;
+import nyc.c4q.shannonalexander_navarro.digitaboo.models.TabooCard;
+import nyc.c4q.shannonalexander_navarro.digitaboo.rv.DeckAdapter;
+
 public class ManageDecksActivity extends AppCompatActivity {
 
     private TabooViewModel viewModel;
     private DeckAdapter adapter;
     private FloatingActionButton actionButton;
+    private ArrayList<TabooCard> unseenCards = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,13 +31,16 @@ public class ManageDecksActivity extends AppCompatActivity {
         initRv();
         initViews();
         launchAddCardActivity();
-
-        viewModel = ViewModelProviders.of(this).get(TabooViewModel.class);
-        viewModel.getAllCards().observe(this, words -> adapter.setCards(words));
+        observeDB();
 
         //TODO: delete item from db if clicked
     }
 
+    private void observeDB() {
+        viewModel = ViewModelProviders.of(this).get(TabooViewModel.class);
+        viewModel.getAllCards().observe(this, words -> adapter.setCards(words));
+
+    }
 
 
     private void initViews() {

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="nyc.c4q.shannonalexander_navarro.digitaboo.AddCardActivity">
+    tools:context="nyc.c4q.shannonalexander_navarro.digitaboo.activities.AddCardActivity">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/close_frag_btn"
