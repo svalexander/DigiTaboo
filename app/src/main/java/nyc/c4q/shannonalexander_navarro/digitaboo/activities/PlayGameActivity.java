@@ -63,8 +63,12 @@ public class PlayGameActivity extends AppCompatActivity {
         correctButton.setOnClickListener(v -> {
             score+=1;
             handleSeenCard();
-            //TODO: set overlay
         });
+        tabooButton.setOnClickListener(v -> {
+            score-=1;
+            handleSeenCard();
+        });
+        skipButton.setOnClickListener(v -> handleSeenCard());
     }
 
     private void handleSeenCard() {
