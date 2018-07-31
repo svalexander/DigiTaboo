@@ -39,10 +39,20 @@ public class PlayAdapter extends RecyclerView.Adapter<PlayViewHolder> {
         gameWordList = cards;
         notifyDataSetChanged();
     }
+
+    public void deleteCard(int position) {
+        gameWordList.remove(position);
+        notifyItemRemoved(position);
+    }
+
     @Override
     public int getItemCount() {
         if (gameWordList != null) {
             return gameWordList.size();
         } else return 0;
+    }
+
+    public TabooCard getCardAtCurrentPosition (int position) {
+        return gameWordList.get(position);
     }
 }
