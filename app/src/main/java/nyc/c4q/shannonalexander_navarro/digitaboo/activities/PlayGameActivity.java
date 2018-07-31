@@ -25,11 +25,15 @@ public class PlayGameActivity extends AppCompatActivity {
 
     private TabooViewModel viewModel;
 
-    private TextView countDownTV, startTV;
+    private TextView countDownTV, startTV, roundTV, teamTV;
     private Button correctButton, skipButton, tabooButton;
     private ArrayList<TabooCard> seenCards = new ArrayList<>();
-    private int default_num_rounds = 10;
+    private  static  final int DEFAULT_NUM_ROUNDS = 10;
+    private static final int TURNS = 2;
+    private static final String TEAM_1 = "Team 1";
+    private static final String TEAM_2 = "Team 2";
     private int score = 0;
+    private String currentTeam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,8 @@ public class PlayGameActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        roundTV = findViewById(R.id.current_round_tv);
+        teamTV = findViewById(R.id.current_team_tv);
         startTV = findViewById(R.id.start_tv);
         countDownTV = findViewById(R.id.countdown_tv);
         correctButton = findViewById(R.id.correct_btn);
@@ -67,11 +73,31 @@ public class PlayGameActivity extends AppCompatActivity {
     private void startRound(){
         hideButtons();
         startTV.setOnClickListener(v -> {
-            startCountDown();
+            gamePlay();
             initRv();
             observeDB();
             startTV.setVisibility(View.INVISIBLE);
+            showButtons();
         });
+    }
+
+    private void gamePlay(){
+        int currentRound = 1;
+        roundTV.setText("Round: " + currentRound);
+        while (currentRound <= DEFAULT_NUM_ROUNDS) {
+            for (int i = 0; i < TURNS ; i++) {
+                if(i == 0){
+                    currentTeam = TEAM_1;
+                    teamTV.setText(currentTeam);
+                    startCountDown();
+                } else{
+                    currentTeam = TEAM_2;
+                    teamTV.setText(currentTeam);
+                    startCountDown();
+                }
+            }
+            currentRound+=1;
+        }
     }
 
     private void hideButtons() {
@@ -79,6 +105,13 @@ public class PlayGameActivity extends AppCompatActivity {
         skipButton.setVisibility(View.INVISIBLE);
         tabooButton.setVisibility(View.INVISIBLE);
     }
+
+    private void showButtons() {
+        correctButton.setVisibility(View.VISIBLE);
+        skipButton.setVisibility(View.VISIBLE);
+        tabooButton.setVisibility(View.VISIBLE);
+    }
+
 
     private void handleButtons() {
         correctButton.setOnClickListener(v -> {
@@ -93,7 +126,7 @@ public class PlayGameActivity extends AppCompatActivity {
     }
 
     private void startCountDown() {
-        new CountDownTimer(60000, 1000) {
+        new CountDownTimer(10000, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -105,6 +138,7 @@ public class PlayGameActivity extends AppCompatActivity {
             public void onFinish() {
             }
         }.start();
+
     }
 
     private void handleSeenCard() {
