@@ -10,8 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import java.util.ArrayList;
-
 import nyc.c4q.shannonalexander_navarro.digitaboo.R;
 import nyc.c4q.shannonalexander_navarro.digitaboo.TabooViewModel;
 import nyc.c4q.shannonalexander_navarro.digitaboo.models.TabooCard;
@@ -22,7 +20,6 @@ public class ManageDecksActivity extends AppCompatActivity {
     private TabooViewModel viewModel;
     private DeckAdapter adapter;
     private FloatingActionButton actionButton;
-    private ArrayList<TabooCard> unseenCards = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

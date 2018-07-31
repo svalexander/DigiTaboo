@@ -50,4 +50,9 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckViewHolder> {
     public TabooCard getWordAtPosition (int position) {
         return tabooWordList.get(position);
     }
+
+    public void deleteCard(int position) {
+        tabooWordList.remove(position);
+        notifyItemRemoved(position);
+    }
 }
