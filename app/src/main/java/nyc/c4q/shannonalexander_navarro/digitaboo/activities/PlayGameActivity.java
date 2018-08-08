@@ -25,15 +25,18 @@ public class PlayGameActivity extends AppCompatActivity {
 
     private TabooViewModel viewModel;
 
-    private TextView countDownTV, startTV, roundTV, teamTV;
+    private TextView countDownTV, startTV, roundTV, teamTV, promptTV;
     private Button correctButton, skipButton, tabooButton;
     private ArrayList<TabooCard> seenCards = new ArrayList<>();
-    private  static  final int DEFAULT_NUM_ROUNDS = 10;
+    private static final int DEFAULT_NUM_ROUNDS = 10;
     private static final int TURNS = 2;
     private static final String TEAM_1 = "Team 1";
     private static final String TEAM_2 = "Team 2";
-    private int score = 0;
+    private int teamOneScore = 0;
+    private int teamTwoScore = 0;
     private String currentTeam;
+    int currentRound = 1;
+    int currentTurn = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,7 @@ public class PlayGameActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        promptTV = findViewById(R.id.prompt_tv);
         roundTV = findViewById(R.id.current_round_tv);
         teamTV = findViewById(R.id.current_team_tv);
         startTV = findViewById(R.id.start_tv);
@@ -70,33 +74,25 @@ public class PlayGameActivity extends AppCompatActivity {
         tabooButton = findViewById(R.id.buzz_btn);
     }
 
-    private void startRound(){
+    private void startRound() {
         hideButtons();
         startTV.setOnClickListener(v -> {
-            gamePlay();
             initRv();
             observeDB();
             startTV.setVisibility(View.INVISIBLE);
             showButtons();
+            promptTV.setVisibility(View.INVISIBLE);
+            startCountDown(currentTurn);
+            gamePlay();
+
         });
     }
 
-    private void gamePlay(){
-        int currentRound = 1;
+    private void gamePlay() {
+        teamTV.setText(currentTeam);
         roundTV.setText("Round: " + currentRound);
-        while (currentRound <= DEFAULT_NUM_ROUNDS) {
-            for (int i = 0; i < TURNS ; i++) {
-                if(i == 0){
-                    currentTeam = TEAM_1;
-                    teamTV.setText(currentTeam);
-                    startCountDown();
-                } else{
-                    currentTeam = TEAM_2;
-                    teamTV.setText(currentTeam);
-                    startCountDown();
-                }
-            }
-            currentRound+=1;
+        if (currentRound <= DEFAULT_NUM_ROUNDS) {
+            promptTV.setOnClickListener(v -> startCountDown(currentTurn));
         }
     }
 
@@ -115,30 +111,54 @@ public class PlayGameActivity extends AppCompatActivity {
 
     private void handleButtons() {
         correctButton.setOnClickListener(v -> {
-            score += 1;
+            if (currentTurn == 1) {
+                teamOneScore += 1;
+            } else {
+                teamTwoScore += 1;
+            }
             handleSeenCard();
         });
         tabooButton.setOnClickListener(v -> {
-            score -= 1;
+            if (currentTurn == 1) {
+                teamOneScore -= 1;
+            } else {
+                teamTwoScore -= 1;
+            }
             handleSeenCard();
         });
         skipButton.setOnClickListener(v -> handleSeenCard());
     }
 
-    private void startCountDown() {
+    private void startCountDown(int turn) {
         new CountDownTimer(10000, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
+                promptTV.setVisibility(View.VISIBLE);
+                teamTV.setText(currentTeam);
                 long time = millisUntilFinished / 1000;
                 countDownTV.setText(String.valueOf(time));
             }
 
             @Override
             public void onFinish() {
+
+                if (turn == 2 && currentRound == 10) {
+                    promptTV.setText("Game over");
+                }
+                if (turn == 2) {
+                    currentTurn = 1;
+                    currentTeam = TEAM_1;
+                    currentRound += 1;
+                    roundTV.setText("Round: " + currentRound);
+                }
+                if (turn == 1) {
+                    currentTurn = 2;
+                    currentTeam = TEAM_2;
+                }
+                promptTV.setText(currentTeam + " Go");
             }
         }.start();
-
     }
 
     private void handleSeenCard() {
