@@ -46,6 +46,7 @@ public class PlayGameActivity extends AppCompatActivity {
         initViews();
         startRound();
         handleButtons();
+        hideViews();
     }
 
     //TODO: randomize cards
@@ -111,6 +112,16 @@ public class PlayGameActivity extends AppCompatActivity {
         tabooButton.setVisibility(View.VISIBLE);
     }
 
+    private void hideViews() {
+        roundTV.setVisibility(View.INVISIBLE);
+        teamTV.setVisibility(View.INVISIBLE);
+    }
+
+    private void showViews() {
+        roundTV.setVisibility(View.VISIBLE);
+        teamTV.setVisibility(View.VISIBLE);
+    }
+
 
     private void handleButtons() {
         correctButton.setOnClickListener(v -> {
@@ -139,6 +150,7 @@ public class PlayGameActivity extends AppCompatActivity {
     }
 
     private void startCountDown(int turn) {
+        showViews();
         new CountDownTimer(10000, 1000) {
 
             @Override
