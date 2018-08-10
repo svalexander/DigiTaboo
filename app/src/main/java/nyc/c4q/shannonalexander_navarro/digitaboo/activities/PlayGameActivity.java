@@ -114,22 +114,22 @@ public class PlayGameActivity extends AppCompatActivity {
 
     private void handleButtons() {
         correctButton.setOnClickListener(v -> {
-            if (currentTurn == 1) {
+            if (currentTurn == 1 && isPlaying) {
                 teamOneScore += 1;
                 teamOneScoreTV.setText("Team One Score: " + teamOneScore);
             }
-            if (currentTurn == 2) {
+            if (currentTurn == 2 && isPlaying) {
                 teamTwoScore += 1;
                 teamTwoScoreTV.setText("Team Two Score: " + teamTwoScore);
             }
             handleSeenCard();
         });
         tabooButton.setOnClickListener(v -> {
-            if (currentTurn == 1) {
+            if (currentTurn == 1 && isPlaying) {
                 teamOneScore -= 1;
                 teamOneScoreTV.setText("Team One Score: " + teamOneScore);
             }
-            if (currentTurn == 2) {
+            if (currentTurn == 2 && isPlaying) {
                 teamTwoScore -= 1;
                 teamTwoScoreTV.setText("Team Two Score: " + teamTwoScore);
             }
@@ -147,11 +147,13 @@ public class PlayGameActivity extends AppCompatActivity {
                 teamTV.setText(currentTeam);
                 long time = millisUntilFinished / 1000;
                 countDownTV.setText(String.valueOf(time));
+                isPlaying = true;
             }
 
             @Override
             public void onFinish() {
 
+                isPlaying = false;
                 if (turn == 2 && currentRound == 10) {
                     promptTV.setText("Game over");
                 }
@@ -171,10 +173,12 @@ public class PlayGameActivity extends AppCompatActivity {
     }
 
     private void handleSeenCard() {
-        int position = linearLayoutManager.findFirstVisibleItemPosition();
-        TabooCard seenCard = playAdapter.getCardAtCurrentPosition(position);
-        seenCards.add(seenCard);
-        playAdapter.deleteCard(position);
+        if (isPlaying) {
+            int position = linearLayoutManager.findFirstVisibleItemPosition();
+            TabooCard seenCard = playAdapter.getCardAtCurrentPosition(position);
+            seenCards.add(seenCard);
+            playAdapter.deleteCard(position);
+        }
     }
 
 }
