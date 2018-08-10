@@ -82,6 +82,7 @@ public class PlayGameActivity extends AppCompatActivity {
         startTV.setOnClickListener(v -> {
             initRv();
             observeDB();
+            teamTV.setText(currentTeam);
             startTV.setVisibility(View.INVISIBLE);
             showButtons();
             promptTV.setVisibility(View.INVISIBLE);
@@ -92,7 +93,6 @@ public class PlayGameActivity extends AppCompatActivity {
     }
 
     private void gamePlay() {
-        teamTV.setText(currentTeam);
         roundTV.setText("Round: " + currentRound);
         if (currentRound <= DEFAULT_NUM_ROUNDS) {
             promptTV.setOnClickListener(v -> startCountDown(currentTurn));
@@ -144,7 +144,11 @@ public class PlayGameActivity extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 promptTV.setVisibility(View.VISIBLE);
-                teamTV.setText(currentTeam);
+                if (currentTurn == 1 && currentRound == 1) {
+                    teamTV.setText(TEAM_1);
+                } else {
+                    teamTV.setText(currentTeam);
+                }
                 long time = millisUntilFinished / 1000;
                 countDownTV.setText(String.valueOf(time));
                 isPlaying = true;
