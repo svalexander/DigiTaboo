@@ -25,7 +25,7 @@ public class PlayGameActivity extends AppCompatActivity {
 
     private TabooViewModel viewModel;
 
-    private TextView countDownTV, startTV, roundTV, teamTV, promptTV;
+    private TextView countDownTV, startTV, roundTV, teamTV, promptTV, teamOneScoreTV, teamTwoScoreTV;
     private Button correctButton, skipButton, tabooButton;
     private ArrayList<TabooCard> seenCards = new ArrayList<>();
     private static final int DEFAULT_NUM_ROUNDS = 10;
@@ -37,6 +37,7 @@ public class PlayGameActivity extends AppCompatActivity {
     private String currentTeam;
     int currentRound = 1;
     int currentTurn = 1;
+    boolean isPlaying;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,8 @@ public class PlayGameActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        teamOneScoreTV = findViewById(R.id.team_one_score);
+        teamTwoScoreTV = findViewById(R.id.team_two_score);
         promptTV = findViewById(R.id.prompt_tv);
         roundTV = findViewById(R.id.current_round_tv);
         teamTV = findViewById(R.id.current_team_tv);
@@ -113,16 +116,22 @@ public class PlayGameActivity extends AppCompatActivity {
         correctButton.setOnClickListener(v -> {
             if (currentTurn == 1) {
                 teamOneScore += 1;
-            } else {
+                teamOneScoreTV.setText("Team One Score: " + teamOneScore);
+            }
+            if (currentTurn == 2) {
                 teamTwoScore += 1;
+                teamTwoScoreTV.setText("Team Two Score: " + teamTwoScore);
             }
             handleSeenCard();
         });
         tabooButton.setOnClickListener(v -> {
             if (currentTurn == 1) {
                 teamOneScore -= 1;
-            } else {
+                teamOneScoreTV.setText("Team One Score: " + teamOneScore);
+            }
+            if (currentTurn == 2) {
                 teamTwoScore -= 1;
+                teamTwoScoreTV.setText("Team Two Score: " + teamTwoScore);
             }
             handleSeenCard();
         });
