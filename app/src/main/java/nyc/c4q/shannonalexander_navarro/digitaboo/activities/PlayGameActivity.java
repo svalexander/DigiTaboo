@@ -157,7 +157,7 @@ public class PlayGameActivity extends AppCompatActivity {
 
             @Override
             public void onTick(long millisUntilFinished) {
-                promptTV.setVisibility(View.VISIBLE);
+                promptTV.setVisibility(View.INVISIBLE);
                 if (currentTurn == 1 && currentRound == 1) {
                     teamTV.setText(TEAM_1);
                 } else {
@@ -170,7 +170,7 @@ public class PlayGameActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-
+                promptTV.setVisibility(View.VISIBLE);
                 isPlaying = false;
                 if (turn == 2 && currentRound == 10) {
                     promptTV.setText("Game over");
