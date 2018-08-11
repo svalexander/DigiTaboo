@@ -81,6 +81,8 @@ public class PlayGameActivity extends AppCompatActivity {
     private void startRound() {
         hideButtons();
         startTV.setOnClickListener(v -> {
+            teamOneScoreTV.setText("Team One Score: 0");
+            teamTwoScoreTV.setText("Team Two Score: 0");
             initRv();
             observeDB();
             teamTV.setText(currentTeam);
