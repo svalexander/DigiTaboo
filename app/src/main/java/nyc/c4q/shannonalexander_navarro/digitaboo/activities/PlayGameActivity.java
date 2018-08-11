@@ -28,7 +28,7 @@ public class PlayGameActivity extends AppCompatActivity {
     private TextView countDownTV, startTV, roundTV, teamTV, promptTV, teamOneScoreTV, teamTwoScoreTV;
     private Button correctButton, skipButton, tabooButton;
     private ArrayList<TabooCard> seenCards = new ArrayList<>();
-    private static final int DEFAULT_NUM_ROUNDS = 10;
+    private static final int DEFAULT_NUM_ROUNDS = 2;
     private static final int TURNS = 2;
     private static final String TEAM_1 = "Team 1";
     private static final String TEAM_2 = "Team 2";
@@ -97,9 +97,11 @@ public class PlayGameActivity extends AppCompatActivity {
 
     private void gamePlay() {
         roundTV.setText("Round: " + currentRound);
-        if (currentRound <= DEFAULT_NUM_ROUNDS) {
-            promptTV.setOnClickListener(v -> startCountDown(currentTurn));
-        }
+        promptTV.setOnClickListener(v -> {
+            if (currentRound <= DEFAULT_NUM_ROUNDS) {
+                startCountDown(currentTurn);
+            }
+        });
     }
 
     private void hideButtons() {
@@ -172,20 +174,23 @@ public class PlayGameActivity extends AppCompatActivity {
             public void onFinish() {
                 promptTV.setVisibility(View.VISIBLE);
                 isPlaying = false;
-                if (turn == 2 && currentRound == 10) {
-                    promptTV.setText("Game over");
+                if (currentRound == DEFAULT_NUM_ROUNDS && turn == 2) {
+                    promptTV.setText("Game Over");
+                    hideViews();
                 }
-                if (turn == 2) {
+                if (turn == 2 && currentRound < DEFAULT_NUM_ROUNDS) {
                     currentTurn = 1;
                     currentTeam = TEAM_1;
                     currentRound += 1;
                     roundTV.setText("Round: " + currentRound);
+                    promptTV.setText(currentTeam + " Go");
                 }
                 if (turn == 1) {
                     currentTurn = 2;
                     currentTeam = TEAM_2;
+                    promptTV.setText(currentTeam + " Go");
                 }
-                promptTV.setText(currentTeam + " Go");
+
             }
         }.start();
     }
