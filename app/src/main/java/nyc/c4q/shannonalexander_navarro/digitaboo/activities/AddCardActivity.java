@@ -1,5 +1,6 @@
 package nyc.c4q.shannonalexander_navarro.digitaboo.activities;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,16 +9,18 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import nyc.c4q.shannonalexander_navarro.digitaboo.R;
-import nyc.c4q.shannonalexander_navarro.digitaboo.models.TabooCard;
+import nyc.c4q.shannonalexander_navarro.digitaboo.TabooViewModel;
 import nyc.c4q.shannonalexander_navarro.digitaboo.database.TabooDatabase;
+import nyc.c4q.shannonalexander_navarro.digitaboo.models.TabooCard;
 
 public class AddCardActivity extends AppCompatActivity {
 
     private FloatingActionButton closeBtn;
     private Button submitBtn;
     private EditText taboo, one, two, three, four, five;
-    public static final String SERIALIZABLE_KEY = "cardKey";
+    public static final String SERIALIZABLE_KEY = "card_Key";
     public static final String BUNDLE_KEY = "card_bundle";
+    private TabooViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,7 @@ public class AddCardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_card);
         initViews();
         handleClickActions();
+        viewModel = ViewModelProviders.of(this).get(TabooViewModel.class);
     }
 
     private void initViews() {
@@ -40,7 +44,10 @@ public class AddCardActivity extends AppCompatActivity {
 
     private void handleClickActions() {
         closeBtn.setOnClickListener(v -> closeAndSendCard());
-        submitBtn.setOnClickListener(v -> closeAndSendCard());
+        submitBtn.setOnClickListener(v -> {
+            closeAndSendCard();
+            viewModel.insert(getCardDetails());
+        });
     }
 
     private void closeAndSendCard() {
@@ -67,6 +74,4 @@ public class AddCardActivity extends AppCompatActivity {
         TabooCard card = new TabooCard(tabooStr, oneStr, twoStr, threeStr, fourStr, fiveStr, TabooDatabase.DEFAULT_DECK_ID);
         return card;
     }
-
-    //TODO: Write logic to make sure card is added to db when nav to this act from main
 }
