@@ -1,6 +1,7 @@
 package nyc.c4q.shannonalexander_navarro.digitaboo.activities;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -175,8 +176,9 @@ public class PlayGameActivity extends AppCompatActivity {
                 promptTV.setVisibility(View.VISIBLE);
                 isPlaying = false;
                 if (currentRound == DEFAULT_NUM_ROUNDS && turn == 2) {
-                    promptTV.setText("Game Over");
-                    hideViews();
+                    promptTV.setVisibility(View.INVISIBLE);
+                    Intent intent = new Intent(PlayGameActivity.this, LeaderBoardActivity.class);
+                    startActivity(intent);
                 }
                 if (turn == 2 && currentRound < DEFAULT_NUM_ROUNDS) {
                     currentTurn = 1;
