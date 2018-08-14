@@ -12,7 +12,6 @@ import android.view.View;
 
 import nyc.c4q.shannonalexander_navarro.digitaboo.R;
 import nyc.c4q.shannonalexander_navarro.digitaboo.TabooViewModel;
-import nyc.c4q.shannonalexander_navarro.digitaboo.models.TabooCard;
 import nyc.c4q.shannonalexander_navarro.digitaboo.rv.DeckAdapter;
 
 public class ManageDecksActivity extends AppCompatActivity {
@@ -47,7 +46,7 @@ public class ManageDecksActivity extends AppCompatActivity {
     private void launchAddCardActivity() {
         actionButton.setOnClickListener(v -> {
             Intent intent = new Intent(ManageDecksActivity.this, AddCardActivity.class);
-            startActivityForResult(intent, 1);
+            startActivity(intent);
 
         });
     }
@@ -58,16 +57,6 @@ public class ManageDecksActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new OverlapCards());
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            Bundle bundle = data.getBundleExtra(AddCardActivity.BUNDLE_KEY);
-            TabooCard card = (TabooCard) bundle.getSerializable(AddCardActivity.SERIALIZABLE_KEY);
-            viewModel.insert(card);
-        }
     }
 
     public class OverlapCards extends RecyclerView.ItemDecoration {

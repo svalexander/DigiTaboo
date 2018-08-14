@@ -18,8 +18,6 @@ public class AddCardActivity extends AppCompatActivity {
     private FloatingActionButton closeBtn;
     private Button submitBtn;
     private EditText taboo, one, two, three, four, five;
-    public static final String SERIALIZABLE_KEY = "card_Key";
-    public static final String BUNDLE_KEY = "card_bundle";
     private TabooViewModel viewModel;
 
     @Override
@@ -43,24 +41,16 @@ public class AddCardActivity extends AppCompatActivity {
     }
 
     private void handleClickActions() {
-        closeBtn.setOnClickListener(v -> closeAndSendCard());
-        submitBtn.setOnClickListener(v -> {
-            closeAndSendCard();
-            viewModel.insert(getCardDetails());
-        });
+        closeBtn.setOnClickListener(v -> closeAndAddCard());
+        submitBtn.setOnClickListener(v -> closeAndAddCard());
     }
 
-    private void closeAndSendCard() {
-        Intent intent = new Intent(AddCardActivity.this, ManageDecksActivity.class);
-        if (getCardDetails() == null) {
-            setResult(RESULT_CANCELED, intent);
-        } else {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(SERIALIZABLE_KEY, getCardDetails());
-            intent.putExtra(BUNDLE_KEY, bundle);
-            setResult(RESULT_OK, intent);
+    private void closeAndAddCard() {
+        if (getCardDetails() != null) {
+            viewModel.insert(getCardDetails());
         }
-        finish();
+        Intent intent = new Intent(AddCardActivity.this, ManageDecksActivity.class);
+        startActivity(intent);
     }
 
     private TabooCard getCardDetails() {
