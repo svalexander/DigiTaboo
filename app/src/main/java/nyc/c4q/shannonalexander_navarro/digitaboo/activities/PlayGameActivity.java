@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 import nyc.c4q.shannonalexander_navarro.digitaboo.R;
 import nyc.c4q.shannonalexander_navarro.digitaboo.TabooViewModel;
+import nyc.c4q.shannonalexander_navarro.digitaboo.models.Game;
 import nyc.c4q.shannonalexander_navarro.digitaboo.models.TabooCard;
 import nyc.c4q.shannonalexander_navarro.digitaboo.rv.PlayAdapter;
 
@@ -29,7 +31,7 @@ public class PlayGameActivity extends AppCompatActivity {
     private TextView countDownTV, startTV, roundTV, teamTV, promptTV, teamOneScoreTV, teamTwoScoreTV;
     private Button correctButton, skipButton, tabooButton;
     private ArrayList<TabooCard> seenCards = new ArrayList<>();
-    private static final int DEFAULT_NUM_ROUNDS = 2;
+    private static final int DEFAULT_NUM_ROUNDS = 1;
     private static final int TURNS = 2;
     private static final String TEAM_1 = "Team 1";
     private static final String TEAM_2 = "Team 2";
@@ -39,6 +41,9 @@ public class PlayGameActivity extends AppCompatActivity {
     int currentRound = 1;
     int currentTurn = 1;
     boolean isPlaying;
+    Game game;
+    public static final String GAME_BUNDLE_KEY = "Game bundle";
+    public static final String GAME_INTENT_KEY = "Game extra";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +102,7 @@ public class PlayGameActivity extends AppCompatActivity {
     }
 
     private void gamePlay() {
+        //  game.setCurrentRound(currentRound);
         roundTV.setText("Round: " + currentRound);
         promptTV.setOnClickListener(v -> {
             if (currentRound <= DEFAULT_NUM_ROUNDS) {
@@ -177,7 +183,14 @@ public class PlayGameActivity extends AppCompatActivity {
                 isPlaying = false;
                 if (currentRound == DEFAULT_NUM_ROUNDS && turn == 2) {
                     promptTV.setVisibility(View.INVISIBLE);
+                    game = new Game();
+                    game.setTeamOneScore(teamOneScore);
+                    game.setTeamTwoScore(teamTwoScore);
+                    Log.d("score?", game.getTeamOneScore() + "");
                     Intent intent = new Intent(PlayGameActivity.this, LeaderBoardActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(GAME_BUNDLE_KEY, game);
+                    intent.putExtra(GAME_INTENT_KEY, bundle);
                     startActivity(intent);
                 }
                 if (turn == 2 && currentRound < DEFAULT_NUM_ROUNDS) {
