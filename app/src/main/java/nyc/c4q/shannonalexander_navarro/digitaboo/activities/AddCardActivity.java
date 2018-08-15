@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -19,6 +20,7 @@ public class AddCardActivity extends AppCompatActivity {
     private Button submitBtn;
     private EditText taboo, one, two, three, four, five;
     private TabooViewModel viewModel;
+    private int emptyEditTexts = 6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +44,41 @@ public class AddCardActivity extends AppCompatActivity {
 
     private void handleClickActions() {
         closeBtn.setOnClickListener(v -> closeAndAddCard());
-        submitBtn.setOnClickListener(v -> closeAndAddCard());
+        submitBtn.setOnClickListener(v -> {
+            checkEdittexts();
+            if (emptyEditTexts == 0) {
+                closeAndAddCard();
+            }
+            emptyEditTexts = 6;
+        });
     }
 
     private void closeAndAddCard() {
-        if (getCardDetails() != null) {
-            viewModel.insert(getCardDetails());
-        }
+        viewModel.insert(getCardDetails());
         Intent intent = new Intent(AddCardActivity.this, ManageDecksActivity.class);
         startActivity(intent);
     }
 
+    private void checkEdittexts() {
+        EditText[] editTexts = new EditText[6];
+        editTexts[0] = taboo;
+        editTexts[1] = one;
+        editTexts[2] = two;
+        editTexts[3] = three;
+        editTexts[4] = four;
+        editTexts[5] = five;
+
+        for (int i = 0; i < editTexts.length; i++) {
+            if (TextUtils.isEmpty(editTexts[i].getText())) {
+                editTexts[i].setError("Please enter a word");
+            } else {
+                emptyEditTexts -= 1;
+            }
+        }
+    }
+
     private TabooCard getCardDetails() {
+
         String tabooStr = taboo.getText().toString();
         String oneStr = one.getText().toString();
         String twoStr = two.getText().toString();
@@ -61,7 +86,6 @@ public class AddCardActivity extends AppCompatActivity {
         String fourStr = four.getText().toString();
         String fiveStr = five.getText().toString();
 
-        TabooCard card = new TabooCard(tabooStr, oneStr, twoStr, threeStr, fourStr, fiveStr, TabooDatabase.DEFAULT_DECK_ID);
-        return card;
+        return new TabooCard(tabooStr, oneStr, twoStr, threeStr, fourStr, fiveStr, TabooDatabase.DEFAULT_DECK_ID);
     }
 }
