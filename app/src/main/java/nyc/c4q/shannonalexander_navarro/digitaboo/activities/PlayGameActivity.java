@@ -7,12 +7,12 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import nyc.c4q.shannonalexander_navarro.digitaboo.R;
 import nyc.c4q.shannonalexander_navarro.digitaboo.TabooViewModel;
@@ -55,11 +55,12 @@ public class PlayGameActivity extends AppCompatActivity {
         hideViews();
     }
 
-    //TODO: randomize cards
-
     private void observeDB() {
         viewModel = ViewModelProviders.of(this).get(TabooViewModel.class);
-        viewModel.getAllCards().observe(this, words -> playAdapter.setCards(words));
+        viewModel.getAllCards().observe(this, words -> {
+            Collections.shuffle(words);
+            playAdapter.setCards(words);
+        });
 
     }
 
@@ -186,7 +187,6 @@ public class PlayGameActivity extends AppCompatActivity {
                     game = new Game();
                     game.setTeamOneScore(teamOneScore);
                     game.setTeamTwoScore(teamTwoScore);
-                    Log.d("score?", game.getTeamOneScore() + "");
                     Intent intent = new Intent(PlayGameActivity.this, LeaderBoardActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(GAME_BUNDLE_KEY, game);
