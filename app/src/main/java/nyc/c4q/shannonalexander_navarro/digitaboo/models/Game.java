@@ -1,6 +1,7 @@
 package nyc.c4q.shannonalexander_navarro.digitaboo.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Game implements Serializable {
 
@@ -10,20 +11,24 @@ public class Game implements Serializable {
     private int currentRound;
     private int maxRounds;
     private int currentTurn;
+    private int maxTurns;
+    private List<Team> teams;
 
-//    public Game(boolean isPlaying, int teamOneScore, int teamTwoScore, int currentRound, int maxRounds, int currentTurn) {
-//        this.isPlaying = isPlaying;
-//        this.teamOneScore = teamOneScore;
-//        this.teamTwoScore = teamTwoScore;
-//        this.currentRound = currentRound;
-//        this.maxRounds = maxRounds;
-//        this.currentTurn = currentTurn;
-//    }
+    public int getMaxTurns() {
+        return maxTurns;
+    }
 
-//    public Game(int teamOneScore, int teamTwoScore) {
-//        this.teamOneScore = teamOneScore;
-//        this.teamTwoScore = teamTwoScore;
-//    }
+    public void setMaxTurns(int maxTurns) {
+        this.maxTurns = maxTurns;
+    }
+
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
+    }
 
     public boolean isPlaying() {
         return isPlaying;
@@ -58,6 +63,9 @@ public class Game implements Serializable {
     }
 
     public int getMaxRounds() {
+        if (maxRounds == 0) {
+            maxRounds = 10;
+        }
         return maxRounds;
     }
 

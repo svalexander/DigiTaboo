@@ -13,11 +13,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import nyc.c4q.shannonalexander_navarro.digitaboo.R;
 import nyc.c4q.shannonalexander_navarro.digitaboo.TabooViewModel;
 import nyc.c4q.shannonalexander_navarro.digitaboo.models.Game;
 import nyc.c4q.shannonalexander_navarro.digitaboo.models.TabooCard;
+import nyc.c4q.shannonalexander_navarro.digitaboo.models.Team;
 import nyc.c4q.shannonalexander_navarro.digitaboo.rv.PlayAdapter;
 
 public class PlayGameActivity extends AppCompatActivity {
@@ -31,8 +33,6 @@ public class PlayGameActivity extends AppCompatActivity {
     private TextView countDownTV, startTV, roundTV, teamTV, promptTV, teamOneScoreTV, teamTwoScoreTV;
     private Button correctButton, skipButton, tabooButton;
     private ArrayList<TabooCard> seenCards = new ArrayList<>();
-    private static final int DEFAULT_NUM_ROUNDS = 1;
-    private static final int TURNS = 2;
     private static final String TEAM_1 = "Team 1";
     private static final String TEAM_2 = "Team 2";
     private int teamOneScore = 0;
@@ -41,7 +41,8 @@ public class PlayGameActivity extends AppCompatActivity {
     int currentRound = 1;
     int currentTurn = 1;
     boolean isPlaying;
-    Game game;
+    Game game = new Game();
+    final int NUM_ROUNDS = game.getMaxRounds();
     public static final String GAME_BUNDLE_KEY = "Game bundle";
     public static final String GAME_INTENT_KEY = "Game extra";
 
@@ -53,6 +54,7 @@ public class PlayGameActivity extends AppCompatActivity {
         startRound();
         handleButtons();
         hideViews();
+        createStartingGameInfo();
     }
 
     private void observeDB() {
@@ -88,8 +90,7 @@ public class PlayGameActivity extends AppCompatActivity {
     private void startRound() {
         hideButtons();
         startTV.setOnClickListener(v -> {
-            teamOneScoreTV.setText("Team One Score: 0");
-            teamTwoScoreTV.setText("Team Two Score: 0");
+            displayStartingScore();
             initRv();
             observeDB();
             teamTV.setText(currentTeam);
@@ -102,11 +103,29 @@ public class PlayGameActivity extends AppCompatActivity {
         });
     }
 
+    private void createStartingGameInfo() {
+        Team teamOne = new Team();
+        teamOne.setName("Team 1");
+        teamOne.setScore(0);
+        Team teamTwo = new Team();
+        teamTwo.setName("Team 2");
+        teamTwo.setScore(0);
+        List<Team> teamsPlaying = new ArrayList<>();
+        teamsPlaying.add(teamOne);
+        teamsPlaying.add(teamTwo);
+        game.setTeams(teamsPlaying);
+    }
+
+    private void displayStartingScore() {
+        teamOneScoreTV.setText("Team One Score: " + game.getTeams().get(0).getScore());
+        teamTwoScoreTV.setText("Team Two Score: " + game.getTeams().get(1).getScore());
+    }
+
     private void gamePlay() {
         //  game.setCurrentRound(currentRound);
         roundTV.setText("Round: " + currentRound);
         promptTV.setOnClickListener(v -> {
-            if (currentRound <= DEFAULT_NUM_ROUNDS) {
+            if (currentRound <= NUM_ROUNDS) {
                 startCountDown(currentTurn);
             }
         });
@@ -182,18 +201,13 @@ public class PlayGameActivity extends AppCompatActivity {
             public void onFinish() {
                 promptTV.setVisibility(View.VISIBLE);
                 isPlaying = false;
-                if (currentRound == DEFAULT_NUM_ROUNDS && turn == 2) {
+                if (currentRound == NUM_ROUNDS && turn == 2) {
                     promptTV.setVisibility(View.INVISIBLE);
-                    game = new Game();
                     game.setTeamOneScore(teamOneScore);
                     game.setTeamTwoScore(teamTwoScore);
-                    Intent intent = new Intent(PlayGameActivity.this, LeaderBoardActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(GAME_BUNDLE_KEY, game);
-                    intent.putExtra(GAME_INTENT_KEY, bundle);
-                    startActivity(intent);
+                    startLeaderboardActivity();
                 }
-                if (turn == 2 && currentRound < DEFAULT_NUM_ROUNDS) {
+                if (turn == 2 && currentRound < NUM_ROUNDS) {
                     currentTurn = 1;
                     currentTeam = TEAM_1;
                     currentRound += 1;
@@ -208,6 +222,14 @@ public class PlayGameActivity extends AppCompatActivity {
 
             }
         }.start();
+    }
+
+    private void startLeaderboardActivity() {
+        Intent intent = new Intent(PlayGameActivity.this, LeaderBoardActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(GAME_BUNDLE_KEY, game);
+        intent.putExtra(GAME_INTENT_KEY, bundle);
+        startActivity(intent);
     }
 
     private void handleSeenCard() {
