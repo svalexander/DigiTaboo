@@ -35,8 +35,8 @@ public class PlayGameActivity extends AppCompatActivity {
     private ArrayList<TabooCard> seenCards = new ArrayList<>();
     private static final String TEAM_1 = "Team 1";
     private static final String TEAM_2 = "Team 2";
-    private int teamOneScore = 0;
-    private int teamTwoScore = 0;
+    private int teamOneScore;
+    private int teamTwoScore;
     private String currentTeam;
     int currentRound = 1;
     int currentTurn = 1;
@@ -114,6 +114,7 @@ public class PlayGameActivity extends AppCompatActivity {
         teamsPlaying.add(teamOne);
         teamsPlaying.add(teamTwo);
         game.setTeams(teamsPlaying);
+        game.setMaxTurns(teamsPlaying.size());
     }
 
     private void displayStartingScore() {
@@ -156,28 +157,34 @@ public class PlayGameActivity extends AppCompatActivity {
 
     private void handleButtons() {
         correctButton.setOnClickListener(v -> {
-            if (currentTurn == 1 && isPlaying) {
-                teamOneScore += 1;
-                teamOneScoreTV.setText("Team One Score: " + teamOneScore);
-            }
-            if (currentTurn == 2 && isPlaying) {
-                teamTwoScore += 1;
-                teamTwoScoreTV.setText("Team Two Score: " + teamTwoScore);
-            }
+            increaseScore();
             handleSeenCard();
         });
         tabooButton.setOnClickListener(v -> {
             if (currentTurn == 1 && isPlaying) {
-                teamOneScore -= 1;
+                teamOneScore = game.getTeams().get(0).getScore() - 1;
                 teamOneScoreTV.setText("Team One Score: " + teamOneScore);
             }
             if (currentTurn == 2 && isPlaying) {
-                teamTwoScore -= 1;
+                teamTwoScore = game.getTeams().get(1).getScore() - 1;
                 teamTwoScoreTV.setText("Team Two Score: " + teamTwoScore);
             }
             handleSeenCard();
         });
         skipButton.setOnClickListener(v -> handleSeenCard());
+    }
+
+    private void increaseScore() {
+        int index = currentTurn - 1;
+        int prevScore = game.getTeams().get(index).getScore();
+        game.getTeams().get(index).setScore(prevScore + 1);
+
+        if (currentTurn == 1 && isPlaying) {
+            teamOneScoreTV.setText("Team One Score: " + game.getTeams().get(index).getScore());
+        }
+        if (currentTurn == 2 && isPlaying) {
+            teamTwoScoreTV.setText("Team Two Score: " + game.getTeams().get(index).getScore());
+        }
     }
 
     private void startCountDown(int turn) {
