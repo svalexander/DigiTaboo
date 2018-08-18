@@ -37,7 +37,6 @@ public class PlayGameActivity extends AppCompatActivity {
     private static final String TEAM_2 = "Team 2";
     private String currentTeam;
     int currentTurn = 1;
-    boolean isPlaying;
     Game game = new Game();
     final int NUM_ROUNDS = game.getMaxRounds();
     public static final String GAME_BUNDLE_KEY = "Game bundle";
@@ -102,10 +101,10 @@ public class PlayGameActivity extends AppCompatActivity {
 
     private void createStartingGameInfo() {
         Team teamOne = new Team();
-        teamOne.setName("Team 1");
+        teamOne.setName(TEAM_1);
         teamOne.setScore(0);
         Team teamTwo = new Team();
-        teamTwo.setName("Team 2");
+        teamTwo.setName(TEAM_2);
         teamTwo.setScore(0);
         List<Team> teamsPlaying = new ArrayList<>();
         teamsPlaying.add(teamOne);
@@ -166,13 +165,16 @@ public class PlayGameActivity extends AppCompatActivity {
 
     private void changeScore(int addend) {
         int index = currentTurn - 1;
-        int prevScore = game.getTeams().get(index).getScore();
-        game.getTeams().get(index).setScore(prevScore + addend);
 
-        if (currentTurn == 1 && isPlaying) {
+        if (game.isPlaying()) {
+            int prevScore = game.getTeams().get(index).getScore();
+            game.getTeams().get(index).setScore(prevScore + addend);
+        }
+
+        if (currentTurn == 1 && game.isPlaying()) {
             teamOneScoreTV.setText("Team One Score: " + game.getTeams().get(index).getScore());
         }
-        if (currentTurn == 2 && isPlaying) {
+        if (currentTurn == 2 && game.isPlaying()) {
             teamTwoScoreTV.setText("Team Two Score: " + game.getTeams().get(index).getScore());
         }
     }
@@ -191,34 +193,40 @@ public class PlayGameActivity extends AppCompatActivity {
                 }
                 long time = millisUntilFinished / 1000;
                 countDownTV.setText(String.valueOf(time));
-                isPlaying = true;
+                game.setPlaying(true);
             }
 
             @Override
             public void onFinish() {
                 promptTV.setVisibility(View.VISIBLE);
-                isPlaying = false;
+                game.setPlaying(false);
                 if (game.getCurrentRound() == NUM_ROUNDS && turn == 2) {
                     promptTV.setVisibility(View.INVISIBLE);
-//                    game.setTeamOneScore(teamOneScore);
-//                    game.setTeamTwoScore(teamTwoScore);
                     startLeaderboardActivity();
                 }
                 if (turn == 2 && game.getCurrentRound() < NUM_ROUNDS) {
                     currentTurn = 1;
                     currentTeam = TEAM_1;
-                    game.setCurrentRound(game.getCurrentRound()+1);
-                    roundTV.setText("Round: " + game.getCurrentRound());
-                    promptTV.setText(currentTeam + " Go");
+                    changeRound();
+                    setTeamPrompt();
                 }
                 if (turn == 1) {
                     currentTurn = 2;
                     currentTeam = TEAM_2;
-                    promptTV.setText(currentTeam + " Go");
+                    setTeamPrompt();
                 }
 
             }
         }.start();
+    }
+
+    private void changeRound() {
+        game.setCurrentRound(game.getCurrentRound() + 1);
+        roundTV.setText("Round: " + game.getCurrentRound());
+    }
+
+    private void setTeamPrompt() {
+        promptTV.setText(currentTeam + " Go");
     }
 
     private void startLeaderboardActivity() {
@@ -230,12 +238,11 @@ public class PlayGameActivity extends AppCompatActivity {
     }
 
     private void handleSeenCard() {
-        if (isPlaying) {
+        if (game.isPlaying()) {
             int position = linearLayoutManager.findFirstVisibleItemPosition();
             TabooCard seenCard = playAdapter.getCardAtCurrentPosition(position);
             seenCards.add(seenCard);
             playAdapter.deleteCard(position);
         }
     }
-
 }
