@@ -157,27 +157,20 @@ public class PlayGameActivity extends AppCompatActivity {
 
     private void handleButtons() {
         correctButton.setOnClickListener(v -> {
-            increaseScore();
+            changeScore(1);
             handleSeenCard();
         });
         tabooButton.setOnClickListener(v -> {
-            if (currentTurn == 1 && isPlaying) {
-                teamOneScore = game.getTeams().get(0).getScore() - 1;
-                teamOneScoreTV.setText("Team One Score: " + teamOneScore);
-            }
-            if (currentTurn == 2 && isPlaying) {
-                teamTwoScore = game.getTeams().get(1).getScore() - 1;
-                teamTwoScoreTV.setText("Team Two Score: " + teamTwoScore);
-            }
+            changeScore(-1);
             handleSeenCard();
         });
         skipButton.setOnClickListener(v -> handleSeenCard());
     }
 
-    private void increaseScore() {
+    private void changeScore(int addend) {
         int index = currentTurn - 1;
         int prevScore = game.getTeams().get(index).getScore();
-        game.getTeams().get(index).setScore(prevScore + 1);
+        game.getTeams().get(index).setScore(prevScore + addend);
 
         if (currentTurn == 1 && isPlaying) {
             teamOneScoreTV.setText("Team One Score: " + game.getTeams().get(index).getScore());
