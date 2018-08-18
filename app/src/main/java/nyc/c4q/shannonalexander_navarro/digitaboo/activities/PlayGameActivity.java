@@ -35,10 +35,7 @@ public class PlayGameActivity extends AppCompatActivity {
     private ArrayList<TabooCard> seenCards = new ArrayList<>();
     private static final String TEAM_1 = "Team 1";
     private static final String TEAM_2 = "Team 2";
-    private int teamOneScore;
-    private int teamTwoScore;
     private String currentTeam;
-    int currentRound = 1;
     int currentTurn = 1;
     boolean isPlaying;
     Game game = new Game();
@@ -115,6 +112,7 @@ public class PlayGameActivity extends AppCompatActivity {
         teamsPlaying.add(teamTwo);
         game.setTeams(teamsPlaying);
         game.setMaxTurns(teamsPlaying.size());
+        game.setCurrentRound(1);
     }
 
     private void displayStartingScore() {
@@ -123,10 +121,9 @@ public class PlayGameActivity extends AppCompatActivity {
     }
 
     private void gamePlay() {
-        //  game.setCurrentRound(currentRound);
-        roundTV.setText("Round: " + currentRound);
+        roundTV.setText("Round: " + game.getCurrentRound());
         promptTV.setOnClickListener(v -> {
-            if (currentRound <= NUM_ROUNDS) {
+            if (game.getCurrentRound() <= NUM_ROUNDS) {
                 startCountDown(currentTurn);
             }
         });
@@ -187,7 +184,7 @@ public class PlayGameActivity extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 promptTV.setVisibility(View.INVISIBLE);
-                if (currentTurn == 1 && currentRound == 1) {
+                if (currentTurn == 1 && game.getCurrentRound() == 1) {
                     teamTV.setText(TEAM_1);
                 } else {
                     teamTV.setText(currentTeam);
@@ -201,17 +198,17 @@ public class PlayGameActivity extends AppCompatActivity {
             public void onFinish() {
                 promptTV.setVisibility(View.VISIBLE);
                 isPlaying = false;
-                if (currentRound == NUM_ROUNDS && turn == 2) {
+                if (game.getCurrentRound() == NUM_ROUNDS && turn == 2) {
                     promptTV.setVisibility(View.INVISIBLE);
-                    game.setTeamOneScore(teamOneScore);
-                    game.setTeamTwoScore(teamTwoScore);
+//                    game.setTeamOneScore(teamOneScore);
+//                    game.setTeamTwoScore(teamTwoScore);
                     startLeaderboardActivity();
                 }
-                if (turn == 2 && currentRound < NUM_ROUNDS) {
+                if (turn == 2 && game.getCurrentRound() < NUM_ROUNDS) {
                     currentTurn = 1;
                     currentTeam = TEAM_1;
-                    currentRound += 1;
-                    roundTV.setText("Round: " + currentRound);
+                    game.setCurrentRound(game.getCurrentRound()+1);
+                    roundTV.setText("Round: " + game.getCurrentRound());
                     promptTV.setText(currentTeam + " Go");
                 }
                 if (turn == 1) {
