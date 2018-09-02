@@ -25,12 +25,9 @@ import nyc.c4q.shannonalexander_navarro.digitaboo.rv.PlayAdapter;
 public class PlayGameActivity extends AppCompatActivity {
 
     private PlayAdapter playAdapter;
-    private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
 
-    private TabooViewModel viewModel;
-
-    private TextView countDownTV, startTV, roundTV, teamTV, promptTV, teamOneScoreTV, teamTwoScoreTV;
+    private TextView countDownTV, roundTV, teamTV, promptTV, teamOneScoreTV, teamTwoScoreTV;
     private Button correctButton, skipButton, tabooButton;
     private ArrayList<TabooCard> seenCards = new ArrayList<>();
     private static final String TEAM_1 = "Team 1";
@@ -47,23 +44,13 @@ public class PlayGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game);
         initViews();
+        createStartingGameInfo();
         startRound();
         handleButtons();
-        hideViews();
-        createStartingGameInfo();
-    }
-
-    private void observeDB() {
-        viewModel = ViewModelProviders.of(this).get(TabooViewModel.class);
-        viewModel.getAllCards().observe(this, words -> {
-            Collections.shuffle(words);
-            playAdapter.setCards(words);
-        });
-
     }
 
     private void initRv() {
-        recyclerView = findViewById(R.id.play_rv);
+        RecyclerView recyclerView = findViewById(R.id.play_rv);
         playAdapter = new PlayAdapter(this);
         recyclerView.setAdapter(playAdapter);
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -76,27 +63,30 @@ public class PlayGameActivity extends AppCompatActivity {
         promptTV = findViewById(R.id.prompt_tv);
         roundTV = findViewById(R.id.current_round_tv);
         teamTV = findViewById(R.id.current_team_tv);
-        startTV = findViewById(R.id.start_tv);
         countDownTV = findViewById(R.id.countdown_tv);
         correctButton = findViewById(R.id.correct_btn);
         skipButton = findViewById(R.id.skip_btn);
         tabooButton = findViewById(R.id.buzz_btn);
     }
 
-    private void startRound() {
-        hideButtons();
-        startTV.setOnClickListener(v -> {
-            displayStartingScore();
-            initRv();
-            observeDB();
-            teamTV.setText(currentTeam);
-            startTV.setVisibility(View.INVISIBLE);
-            showButtons();
-            promptTV.setVisibility(View.INVISIBLE);
-            startCountDown(currentTurn);
-            gamePlay();
-
+    private void observeDB() {
+        TabooViewModel viewModel = ViewModelProviders.of(this).get(TabooViewModel.class);
+        viewModel.getAllCards().observe(this, words -> {
+            Collections.shuffle(words);
+            playAdapter.setCards(words);
         });
+
+    }
+
+    private void startRound() {
+        displayStartingScore();
+        initRv();
+        observeDB();
+        teamTV.setText(currentTeam);
+        promptTV.setVisibility(View.INVISIBLE);
+        startCountDown(currentTurn);
+        gamePlay();
+
     }
 
     private void createStartingGameInfo() {
@@ -128,29 +118,6 @@ public class PlayGameActivity extends AppCompatActivity {
         });
     }
 
-    private void hideButtons() {
-        correctButton.setVisibility(View.INVISIBLE);
-        skipButton.setVisibility(View.INVISIBLE);
-        tabooButton.setVisibility(View.INVISIBLE);
-    }
-
-    private void showButtons() {
-        correctButton.setVisibility(View.VISIBLE);
-        skipButton.setVisibility(View.VISIBLE);
-        tabooButton.setVisibility(View.VISIBLE);
-    }
-
-    private void hideViews() {
-        roundTV.setVisibility(View.INVISIBLE);
-        teamTV.setVisibility(View.INVISIBLE);
-    }
-
-    private void showViews() {
-        roundTV.setVisibility(View.VISIBLE);
-        teamTV.setVisibility(View.VISIBLE);
-    }
-
-
     private void handleButtons() {
         correctButton.setOnClickListener(v -> {
             changeScore(1);
@@ -180,17 +147,13 @@ public class PlayGameActivity extends AppCompatActivity {
     }
 
     private void startCountDown(int turn) {
-        showViews();
         new CountDownTimer(10000, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
                 promptTV.setVisibility(View.INVISIBLE);
-                if (currentTurn == 1 && game.getCurrentRound() == 1) {
-                    teamTV.setText(TEAM_1);
-                } else {
-                    teamTV.setText(currentTeam);
-                }
+                String teamName = (currentTurn == 1 && game.getCurrentRound() == 1) ? TEAM_1 : currentTeam;
+                teamTV.setText(teamName);
                 long time = millisUntilFinished / 1000;
                 countDownTV.setText(String.valueOf(time));
                 game.setPlaying(true);

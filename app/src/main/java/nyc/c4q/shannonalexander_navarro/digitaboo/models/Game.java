@@ -15,6 +15,7 @@ public class Game implements Serializable {
     private List<Team> teams;
 
     public int getMaxTurns() {
+        maxTurns = teams.size();
         return maxTurns;
     }
 
