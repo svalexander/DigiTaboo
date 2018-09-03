@@ -92,10 +92,8 @@ public class PlayGameActivity extends AppCompatActivity {
     private void createStartingGameInfo() {
         Team teamOne = new Team();
         teamOne.setName(TEAM_1);
-        teamOne.setScore(0);
         Team teamTwo = new Team();
         teamTwo.setName(TEAM_2);
-        teamTwo.setScore(0);
         List<Team> teamsPlaying = new ArrayList<>();
         teamsPlaying.add(teamOne);
         teamsPlaying.add(teamTwo);
