@@ -56,6 +56,9 @@ public class Game implements Serializable {
     }
 
     public int getCurrentRound() {
+        if(currentRound == 0){
+            currentRound = 1;
+        }
         return currentRound;
     }
 

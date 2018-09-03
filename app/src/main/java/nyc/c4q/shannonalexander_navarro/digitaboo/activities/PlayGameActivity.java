@@ -101,7 +101,6 @@ public class PlayGameActivity extends AppCompatActivity {
         teamsPlaying.add(teamTwo);
         game.setTeams(teamsPlaying);
         game.setMaxTurns(teamsPlaying.size());
-        game.setCurrentRound(1);
     }
 
     private void displayStartingScore() {
